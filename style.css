@@ -28,3 +28,33 @@ button {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
+
+
+/* bigger, styled candles */
+.candles {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.candle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flame {
+  font-size: 3.5rem;       /* flame size */
+  animation: flameFlicker 0.8s infinite;
+}
+.stick {
+  font-size: 3rem;        /* candle body */
+  filter: drop-shadow(0 0 6px #fff);
+}
+
+/* flickering flame */
+@keyframes flameFlicker {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-4px) scale(1.1); opacity: 0.8; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
