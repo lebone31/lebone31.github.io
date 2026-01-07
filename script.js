@@ -55,4 +55,27 @@ function forceNext() {
   }, 500);
 }
 
+function startMicOrFallback() {
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        alert("Microphone access granted! Blow into the mic!");
+        // do your old mic logic here
+      })
+      .catch(err => {
+        // mic not available or denied
+        alert("Mic not supported or denied — tap the button to continue!");
+        document.getElementById("blowFallbackBtn").style.display = "block";
+      });
+  } else {
+    alert("Mic not supported — tap the button to continue!");
+    document.getElementById("blowFallbackBtn").style.display = "block";
+  }
+}
+
+function proceedAfterBlow() {
+  // same effect as blowing
+  document.getElementById("cakePage").classList.remove("active");
+  document.getElementById("envelopePage").classList.add("active");
+}
 // You can add other shared JS logic here
