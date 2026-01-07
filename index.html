@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy Birthday Charlie 🎉</title>
+<title>Happy Birthday Charlie 🎂</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,114 +10,141 @@
 
 body {
   margin: 0;
-  height: 100vh;
   background: #000;
   color: #fff;
+  font-family: 'Playfair Display', serif;
+  text-align: center;
+  overflow: hidden;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Playfair Display', serif;
-  overflow: hidden;
 }
 
 .page {
   display: none;
-  text-align: center;
-  padding: 20px;
 }
-
 .page.active {
   display: block;
 }
 
-.title {
-  font-size: 24px;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
+/* Cake with CSS only */
+.cake-container {
+  font-size: 3rem;
+  line-height: 1;
 }
 
+.cake-layer {
+  position: relative;
+  width: 220px;
+  height: 120px;
+  margin: auto;
+  background: #f28db2;
+  border-radius: 10px 10px 0 0;
+}
+
+.cake-layer:before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: #f7a1c1;
+  border-radius: 10px 10px 0 0;
+}
+
+.candles {
+  margin-top: 10px;
+}
+
+.candle {
+  font-size: 2rem;
+  margin: 0 4px;
+  animation: flicker 1.5s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Button */
 button {
   margin-top: 20px;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 20px;
   border: none;
   background: #fff;
   color: #000;
   cursor: pointer;
+  font-size: 18px;
 }
 
+/* Envelope */
 .envelope {
   font-size: 90px;
   cursor: pointer;
   animation: float 1.5s infinite;
 }
-
 @keyframes float {
   0% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
   100% { transform: translateY(0); }
 }
 
-/* Heart styles */
+/* Hearts */
 .hearts {
   position: fixed;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 999;
+  z-index: 998;
 }
-
 .heart {
   position: absolute;
   opacity: 0;
-  animation: floatRainbow 7s linear forwards;
+  animation: floatUp 7s linear forwards;
+}
+@keyframes floatUp {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-120vh) scale(1.8); }
 }
 
-@keyframes floatRainbow {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-120vh) scale(1.8);
-  }
-}
 </style>
 </head>
+
 <body>
 
-<!-- CAKE PAGE -->
+<!-- Cake Page -->
 <div class="page active" id="cakePage">
-  <div class="title">HAPPY BIRTHDAY CHARLIE 🤍</div>
-  <div class="cake">
-    <img src="https://i.imgur.com/8YqGkWa.png?raw=true" alt="Cake" style="width:200px; filter: grayscale(100%);">
-  </div>
-  <div class="candles">
-    <span class="candle on">🕯️</span>
-    <span class="candle on">🕯️</span>
-    <span class="candle on">🕯️</span>
+  <h1>HAPPY BIRTHDAY CHARLIE 🎂</h1>
+  <div class="cake-container">
+    <div class="cake-layer"></div>
+    <div class="candles">
+      <span class="candle">🕯️</span>
+      <span class="candle">🕯️</span>
+      <span class="candle">🕯️</span>
+    </div>
   </div>
   <button onclick="startMic()">Blow Gently</button>
 </div>
 
-<!-- ENVELOPE PAGE -->
+<!-- Envelope Page -->
 <div class="page" id="envelopePage">
   <div class="envelope" onclick="openLetter()">✉️</div>
 </div>
 
-<!-- LETTER PAGE -->
+<!-- Letter Page -->
 <div class="page" id="letterPage">
-  <div class="letter-content">
-    <h2>My Dear 🤍</h2>
-    <p>I know we haven’t known each other for a very long time...</p>
-    <p>Happy Birthday, my love 🤍</p>
-  </div>
+  <h2>Dear Charlie 🤍</h2>
+  <p>I know we haven’t known each other long, but you’ve become such an important part of my life…</p>
+  <p>Happy Birthday, my love 🎉</p>
 </div>
 
 <div class="hearts" id="hearts"></div>
 
-<!-- 🎉 confetti library -->
+<!-- Confetti -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
 
 <audio id="music">
@@ -125,15 +152,14 @@ button {
 </audio>
 
 <script>
-// page elements
-const heartsDiv = document.getElementById("hearts");
+// Page elements
 const cakePage = document.getElementById("cakePage");
 const envelopePage = document.getElementById("envelopePage");
 const letterPage = document.getElementById("letterPage");
-const candles = document.querySelectorAll(".candle");
+const heartsDiv = document.getElementById("hearts");
 const music = document.getElementById("music");
 
-// listen for “blow”
+// Mic blow detection
 function startMic() {
   navigator.mediaDevices.getUserMedia({ audio: true })
     .then(stream => {
@@ -146,10 +172,9 @@ function startMic() {
 
       function listen() {
         analyser.getByteFrequencyData(data);
-        let volume = data.reduce((a, b) => a + b) / data.length;
+        let volume = data.reduce((a,b) => a + b)/data.length;
         if (volume > 40) {
-          candles.forEach(c => c.classList.remove("on"));
-          softHearts();
+          launchHearts();
           setTimeout(() => {
             cakePage.classList.remove("active");
             envelopePage.classList.add("active");
@@ -163,31 +188,30 @@ function startMic() {
     .catch(() => alert("Microphone access is needed!"));
 }
 
-// rainbow hearts
-function softHearts() {
+// Hearts animation
+function launchHearts() {
   const colors = ["#ff0000","#ff7f00","#ffff00","#00ff00","#0000ff","#4b0082","#8f00ff","#ff69b4","#00ffff"];
   for (let i = 0; i < 40; i++) {
     const h = document.createElement("div");
     h.className = "heart";
     h.textContent = "❤️";
-    h.style.color = colors[Math.floor(Math.random() * colors.length)];
+    h.style.color = colors[Math.floor(Math.random()*colors.length)];
     h.style.left = Math.random() * 100 + "vw";
-    h.style.fontSize = (30 + Math.random() * 45) + "px";
+    h.style.fontSize = (30 + Math.random() * 40) + "px";
     h.style.animationDuration = (5 + Math.random() * 3) + "s";
-    h.style.animationDelay = (Math.random() * 1.5) + "s";
+    h.style.animationDelay = Math.random() * 1.5 + "s";
     heartsDiv.appendChild(h);
     setTimeout(() => h.remove(), 8000);
   }
 }
 
-// open letter + confetti
+// Open letter + confetti + music
 function openLetter() {
   envelopePage.classList.remove("active");
   letterPage.classList.add("active");
 
-  // 🎊 confetti burst
   confetti({
-    particleCount: 150,
+    particleCount: 200,
     spread: 180,
     origin: { y: 0.6 }
   });
