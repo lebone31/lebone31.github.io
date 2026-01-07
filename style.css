@@ -1,4 +1,21 @@
 <!-- redeploy trigger -->
+
+/* Center everything vertically + horizontally */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical centering */
+  align-items: center;     /* horizontal centering */
+  background: #000;        /* make background black */
+  color: #fff;             /* text white so it’s visible */
+  text-align: center;      /* centre text inside elements */
+}
 body {
   background: #000;
   color: #fff;
