@@ -1,3 +1,4 @@
+<!-- redeploy trigger -->
 // Example: confetti on letter page
 if (window.location.pathname.endsWith("letter.html")) {
   confetti({
