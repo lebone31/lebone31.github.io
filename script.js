@@ -45,4 +45,14 @@ function startMic() {
       document.getElementById("micFallback").style.display = "block";
     });
 }
+
+function forceNext() {
+  // Do exactly what you would after a successful blow
+  launchBalloons();
+  setTimeout(() => {
+    document.getElementById("cakePage").classList.remove("active");
+    document.getElementById("envelopePage").classList.add("active");
+  }, 500);
+}
+
 // You can add other shared JS logic here
